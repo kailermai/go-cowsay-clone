@@ -6,10 +6,13 @@ import (
 	"io"      // used to detect end of input
 	"os"      // handling standard IO and file stats
 	"strings" // for string manipulation
-	// "unicode/utf8" // to handle ASCII
+	// to handle ASCII
 )
 
 // building the speech balloon
+// buildBalloon takes a slice of strings of max width maxwidth
+// prepends/appends margins on first and last line, and at start/end of each line
+// and returns a string with the contents of the balloon
 func buildSpeechBalloon(lines []string, maxwidth int) string {
 	var borders []string
 	count := len(lines)
@@ -44,6 +47,18 @@ func buildSpeechBalloon(lines []string, maxwidth int) string {
 	return strings.Join(ret, "\n")
 }
 
+// tabsToSpaces converts all tabs found in the strings
+// found in the `lines` slice to 4 spaces, to prevent misalignments in
+// counting the runes
+func tabsToSpaces(lines []string) []string {
+	var ret []string
+	for _, l := range lines {
+		strings.Replace(l, "\t", "    ", -1)
+		ret = append(ret, l)
+	}
+	return ret
+}
+
 func main() {
 	// retrieve metadata about the standard input, and _ ignores error returned
 	info, _ := os.Stdin.Stat()
@@ -70,5 +85,5 @@ func main() {
 	}
 
 	speechBalloon := buildSpeechBalloon(lines, 15)
-	fmt.Printf(speechBalloon)
+	fmt.Println(speechBalloon)
 }
