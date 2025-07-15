@@ -23,8 +23,8 @@ func main() {
 	var output []rune
 
 	for {
-		input, _, err := reader.ReadRune()
-		if err != nil && err == io.EOF { // checks for error and end of input
+		input, _, err := reader.ReadRune() // read one unicode character one at a time, _ takes the size of the return value
+		if err != nil && err == io.EOF {   // checks for error and end of input
 			break
 		}
 
