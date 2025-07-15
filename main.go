@@ -122,6 +122,11 @@ func printAnimal(name string) {
 }
 
 func main() {
+	var figure string
+	// adding the flag to our cli, specifying that -f is our flag and default is cow, and the helper message
+	flag.StringVar(&figure, "f", "cow", "the animal name. Valid names are `cow` and `stegosaurus`")
+	flag.Parse() // to allow us to use flag definitions
+
 	// retrieve metadata about the standard input, and _ ignores error returned
 	info, _ := os.Stdin.Stat()
 
@@ -129,7 +134,7 @@ func main() {
 	if info.Mode()&os.ModeCharDevice != 0 {
 		fmt.Println("This command is intended to work with pipes.")
 		fmt.Println("Usage: [text string] | gocowsay")
-		fmt.Println("Works with fortune too")
+		fmt.Println("This works with fortune too!")
 		return
 	}
 
@@ -145,11 +150,6 @@ func main() {
 
 		lines = append(lines, string(line))
 	}
-
-	var figure string
-	// adding the flag to our cli, specifying that -f is our flag and default is cow, and the helper message
-	flag.StringVar(&figure, "f", "cow", "the animal name. Valid names are `cow` and `stegosaurus`")
-	flag.Parse() // to allow us to use flag definitions
 
 	lines = tabsToSpaces(lines)
 	maxWidth := calculatemaxWidth(lines)
