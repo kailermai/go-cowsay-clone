@@ -1,7 +1,8 @@
 package main
 
 import (
-	"bufio"        // for buffered IO operations (more efficient)
+	"bufio" // for buffered IO operations (more efficient)
+	"flag"
 	"fmt"          // for formatted IO like printf
 	"io"           // used to detect end of input
 	"os"           // handling standard IO and file stats
@@ -83,6 +84,43 @@ func normaliseLines(lines []string, maxwdith int) []string {
 	return ret
 }
 
+// to choose which animal to print
+func printAnimal(name string) {
+
+	var cow = `         \  ^__^
+          \ (oo)\_______
+	    (__)\       )\/\
+	        ||----w |
+	        ||     ||
+		`
+
+	var stegosaurus = `         \                      .       .
+          \                    / ` + "`" + `.   .' "
+           \           .---.  <    > <    >  .---.
+            \          |    \  \ - ~ ~ - /  /    |
+          _____           ..-~             ~-..-~
+         |     |   \~~~\\.'                    ` + "`" + `./~~~/
+        ---------   \__/                         \__/
+       .'  O    \     /               /       \  "
+      (_____,    ` + "`" + `._.'               |         }  \/~~~/
+       ` + "`" + `----.          /       }     |        /    \__/
+             ` + "`" + `-.      |       /      |       /      ` + "`" + `. ,~~|
+                 ~-.__|      /_ - ~ ^|      /- _      ` + "`" + `..-'
+                      |     /        |     /     ~-.     ` + "`" + `-. _  _  _
+                      |_____|        |_____|         ~ - . _ _ _ _ _>
+
+	`
+
+	switch name {
+	case "cow":
+		fmt.Println(cow)
+	case "stegosaurus":
+		fmt.Println(stegosaurus)
+	default:
+		fmt.Println("Unknown Animal")
+	}
+}
+
 func main() {
 	// retrieve metadata about the standard input, and _ ignores error returned
 	info, _ := os.Stdin.Stat()
@@ -108,17 +146,16 @@ func main() {
 		lines = append(lines, string(line))
 	}
 
-	var cow = `         \  ^__^
-          \ (oo)\_______
-	    (__)\       )\/\
-	        ||----w |
-	        ||     ||
-		`
+	var figure string
+	// adding the flag to our cli, specifying that -f is our flag and default is cow, and the helper message
+	flag.StringVar(&figure, "f", "cow", "the animal name. Valid names are `cow` and `stegosaurus`")
+	flag.Parse() // to allow us to use flag definitions
 
 	lines = tabsToSpaces(lines)
 	maxWidth := calculatemaxWidth(lines)
 	messages := normaliseLines(lines, maxWidth)
 	speechWithBalloon := buildSpeechBalloon(messages, maxWidth)
 	fmt.Println(speechWithBalloon)
-	fmt.Println(cow)
+	printAnimal(figure)
+	fmt.Println()
 }
