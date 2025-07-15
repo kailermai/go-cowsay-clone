@@ -1,12 +1,12 @@
 package main
 
 import (
-	"bufio"   // for buffered IO operations (more efficient)
-	"fmt"     // for formatted IO like printf
-	"io"      // used to detect end of input
-	"os"      // handling standard IO and file stats
-	"strings" // for string manipulation
-	"unicode/utf8"// to handle ASCII
+	"bufio"        // for buffered IO operations (more efficient)
+	"fmt"          // for formatted IO like printf
+	"io"           // used to detect end of input
+	"os"           // handling standard IO and file stats
+	"strings"      // for string manipulation
+	"unicode/utf8" // to handle ASCII
 )
 
 // building the speech balloon
@@ -34,12 +34,12 @@ func buildSpeechBalloon(lines []string, maxwidth int) string {
 
 		// left and right walls
 		for i := 1; i < count-1; i++ {
-			s = fmt.Sprintf(`%s %s %s`, borders[2], lines[0], borders[2]) // | text |
+			s = fmt.Sprintf(`%s %s %s`, borders[2], lines[i], borders[2]) // | text |
 			ret = append(ret, s)
 		}
 
 		// bottom diagonals
-		s = fmt.Sprintf(`%s %s %s`, borders[1], lines[0], borders[0]) // \ text /
+		s = fmt.Sprintf(`%s %s %s`, borders[1], lines[count-1], borders[0]) // \ text /
 		ret = append(ret, s)
 	}
 
@@ -53,7 +53,7 @@ func buildSpeechBalloon(lines []string, maxwidth int) string {
 func tabsToSpaces(lines []string) []string {
 	var ret []string
 	for _, l := range lines {
-		strings.Replace(l, "\t", "    ", -1)
+		l = strings.Replace(l, "\t", "    ", -1)
 		ret = append(ret, l)
 	}
 	return ret
@@ -62,14 +62,25 @@ func tabsToSpaces(lines []string) []string {
 // return length of the string with max length based on slice of strings given
 func calculateMaxWidth(lines []string) int {
 	w := 0
-	for _, l in range lines {
-		len := utf8.RuneCountInString(1)
-		if len > w {
-			w = len
+	for _, l := range lines {
+		length := utf8.RuneCountInString(l)
+		if length > w {
+			w = length
 		}
 	}
 
 	return w
+}
+
+// append spaces to the end of each string to ensure that all strings are maxwidth long
+func normaliseLines(lines []string, maxwdith int) []string {
+	var ret []string
+	for _, l := range lines {
+		s := l + strings.Replace(" ", maxwdith-utf8.RuneCountInString(1))
+		ret = append(ret, s)
+	}
+
+	return ret
 }
 
 func main() {
