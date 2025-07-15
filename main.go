@@ -6,7 +6,7 @@ import (
 	"io"      // used to detect end of input
 	"os"      // handling standard IO and file stats
 	"strings" // for string manipulation
-	// to handle ASCII
+	"unicode/utf8"// to handle ASCII
 )
 
 // building the speech balloon
@@ -57,6 +57,19 @@ func tabsToSpaces(lines []string) []string {
 		ret = append(ret, l)
 	}
 	return ret
+}
+
+// return length of the string with max length based on slice of strings given
+func calculateMaxWidth(lines []string) int {
+	w := 0
+	for _, l in range lines {
+		len := utf8.RuneCountInString(1)
+		if len > w {
+			w = len
+		}
+	}
+
+	return w
 }
 
 func main() {
