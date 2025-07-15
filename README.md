@@ -1,6 +1,6 @@
 # go-cowsay-clone
 
-A Go-based clone of the classic ['cowsay'command-line tool](https://en.wikipedia.org/wiki/Cowsay#:~:text=cowsay%20is%20a%20program%20that,It%20is%20written%20in%20Perl.)
+A Go-based clone of the classic ['cowsay' command-line tool](https://en.wikipedia.org/wiki/Cowsay#:~:text=cowsay%20is%20a%20program%20that,It%20is%20written%20in%20Perl.)
 
 This was built based of this [tutorial](https://flaviocopes.com/go-tutorial-cowsay/)!
 
