@@ -1,1 +1,1 @@
-# go-project-clones
+# go-cowsay-clone
