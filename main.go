@@ -10,17 +10,17 @@ import (
 )
 
 // building the speech balloon
-// buildBalloon takes a slice of strings of max width maxwidth
+// buildBalloon takes a slice of strings of max width maxWidth
 // prepends/appends margins on first and last line, and at start/end of each line
 // and returns a string with the contents of the balloon
-func buildSpeechBalloon(lines []string, maxwidth int) string {
+func buildSpeechBalloon(lines []string, maxWidth int) string {
 	var borders []string
 	count := len(lines)
 	var ret []string
 
 	borders = []string{"/", "\\", "|", "<", ">"}
 
-	horizontalBorder := " " + strings.Repeat("_", maxwidth+2)
+	horizontalBorder := " " + strings.Repeat("_", maxWidth+2)
 
 	ret = append(ret, horizontalBorder)
 
@@ -60,7 +60,7 @@ func tabsToSpaces(lines []string) []string {
 }
 
 // return length of the string with max length based on slice of strings given
-func calculateMaxWidth(lines []string) int {
+func calculatemaxWidth(lines []string) int {
 	w := 0
 	for _, l := range lines {
 		length := utf8.RuneCountInString(l)
@@ -72,11 +72,11 @@ func calculateMaxWidth(lines []string) int {
 	return w
 }
 
-// append spaces to the end of each string to ensure that all strings are maxwidth long
+// append spaces to the end of each string to ensure that all strings are maxWidth long
 func normaliseLines(lines []string, maxwdith int) []string {
 	var ret []string
 	for _, l := range lines {
-		s := l + strings.Replace(" ", maxwdith-utf8.RuneCountInString(1))
+		s := l + strings.Repeat(" ", maxwdith-utf8.RuneCountInString(l))
 		ret = append(ret, s)
 	}
 
@@ -108,6 +108,17 @@ func main() {
 		lines = append(lines, string(line))
 	}
 
-	speechBalloon := buildSpeechBalloon(lines, 15)
-	fmt.Println(speechBalloon)
+	var cow = `         \  ^__^
+          \ (oo)\_______
+	    (__)\       )\/\
+	        ||----w |
+	        ||     ||
+		`
+
+	lines = tabsToSpaces(lines)
+	maxWidth := calculatemaxWidth(lines)
+	messages := normaliseLines(lines, maxWidth)
+	speechWithBalloon := buildSpeechBalloon(messages, maxWidth)
+	fmt.Println(speechWithBalloon)
+	fmt.Println(cow)
 }
